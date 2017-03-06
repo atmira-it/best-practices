@@ -4,4 +4,4 @@
 
 ## Front
 
-<a href="frontend/angularjs/README.rm" target="_blank"><img src="/assets/angularjs.png" height="40"></a>
+<a href="frontend/angularjs/README.md" target="_blank"><img src="/assets/angularjs.png" height="40"></a>

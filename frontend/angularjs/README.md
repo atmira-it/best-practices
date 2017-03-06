@@ -2,19 +2,19 @@
 
 > Esta guia ha sido desarrollada para versiones de AngularJS >1.3.0 <1.6.0, y teniendo como referencia la versión 1.4.3
 
-### Tabla de contenidos
+## Tabla de contenidos
 
 * [watever](#watever)
 
-## Estructura de la aplicación
+# Estructura de la aplicación
 
 Una aplicación AngularJS está estructurada en módulos, (Module a partir de ahora). Un Module encapsula la lógica y representación visual de una funcionalidad concreta de la aplicación. Esta estructura modular se implementa en el diseño de la estructura de archivos, ayundando a interpretar la aplicación de manera visual con sólo ver el arbol de carpetas.
 
 Pongamos por ejemplo como sería la estructura de la página de Twitter con este diseño (simplificada).
-![](/assets/twitter-timeline.png)
-![](/assets/twitter-profile.png)
-![](/assets/twitter-moments.png)
-![](/assets/twitter-notifications.png)
+![](frontend/angularjs/assets/twitter-timeline.png)
+![](frontend/angularjs/assets/twitter-profile.png)
+![](frontend/angularjs/assets/twitter-moments.png)
+![](frontend/angularjs/assets/twitter-notifications.png)
 
 ```
 src/
@@ -98,4 +98,273 @@ Este Module sirve de punto de conexión entre el app.module y distintos elemento
 
 Este Module realiza la misma función de conexión con app.module pero para cada uno de los Module que cubren funcionalidades principales de la aplicación.
 
+## Componentes / Component
 
+Los Components principalmente son vistas + lógica, (.html + .controller.js + .service.js). Si los Modules sirven para conectar las diferentes partes que tienen en común pertenecer a un aspecto funcional de la aplicación, cada Component de un Module sirve para controlar una funcionalidad de la vista.
+
+> Si usas una versión de AngularJS comprendida entre la 1.3 y la 1.5 puedes utilizar Components con el Polyfill 'Angular-Component' de Todd Motto
+
+## Elemento / Element
+
+Un Element es una parte de la vista de un Module o Component separada de su .html principal por motivos de limpieza u orden. Un Element carece de lógica, por lo que sólo puede conformarlo archivos .html o .scss.
+
+> Los Element no forman parte de los elementos definidos por AngularJS. Nosotros hemos definido este término para normalizar su uso, pero no forma parte del 'standar' de AngularJS.
+
+## Controladores / Controller
+
+En Angular el flujo de datos se maneja por medio de los Controllers. Por lo general un Controller está asociado a un html y a un Component, manejando lo que la vista va a mostrar y ocupando de recuperar y tratar la información por medio de services.
+
+# Reglas generales de estilo
+
+Mantén las funciones pequeñas, no más de 75 líneas de código (- = mejor).
+
+`Mas facil mantener, entender, reutilizar y debuggear el código`
+
+## Responsabilidad única
+
+Define cada elemento de los Modules (Controllers/Components/Providers) en archivos separados.
+
+`Facilita la lectura, el mantenimiento y la búsqueda de incidencias`
+
+```javascript
+/* Evitar */
+// ...profile.module.js
+angular.
+	.module('twitter.profile', ['ngRoute'])
+	.controller('ProfileController', ProfileController)
+	.service('profileService', profileService);
+function ProfileController() { }
+function profileService() { }
+
+
+/* OK */
+// ...profile.module.js
+angular.module('twitter.profile', ['ngRoute']);
+
+// ...profile.controller.js
+angular
+	.module('twitter.profile')
+	.controller('ProfileController', ProfileController);
+function ProfileController() { }
+
+// ...profile.service.js
+angular
+	.module('twitter.profile')
+	.factory('profileService', profileService);
+function profileService() { }
+```
+
+## IIFE *Inmmediately Invoked Function Expression*
+
+Pon el código en una envoltura de función que la aisle del Scope global. 
+<sub>*Por brevedad, el resto de ejemplos mostrados no muestran este tipo de declaración*</sub>
+
+`Evita colisiones en la declaración de variables y que estas se mantengan en el ciclo global`
+
+```javascript
+// ...profile.controller.js
+/* Evitar */
+angular
+	.module('twitter.profile')
+	.controller('ProfileController', ProfileController);
+// Esta función se crea como variable global.
+function ProfileController() { }
+
+
+/* OK */
+(function() {
+	'use strict';
+
+	angular
+		.module('twitter.profile')
+		.controller('ProfileController', ProfileController);
+
+		function ProfileController() { }
+})();
+```
+
+## Declaración de variables/funciones públicas
+
+Declara todas las variables y funciones públicas al inicio de la función, y separa el resto de la implementación tras el código de estos elementos.
+
+```javascript
+/* Evitar */
+function ProfileController(profileService) {
+	var vm = this;
+	vm.twitts = [];
+	vm.user = undefined;
+
+	function getUserData() {
+		var userData = profileService.getUserData();
+		vm.twitts = profileService.getTwitts(vm.user.id);
+		return userData;
+	}
+	var deleteTwitt = function(id) {
+		profileService.deleteTwitt(id);
+		vm.twitts = profuleService.getTwitts(vm.user.id);
+	}
+	vm.deleteTwitt = deleteTwitt;
+
+	getUserData();
+}
+
+/* OK */
+function ProfileController(profileService) {
+	var vm = this;
+	vm.twitts = [];
+	vm.user = undefined;
+	vm.deleteTwitt = deleteTwitt;
+
+	getUserData();
+
+	var deleteTwitt = function(id) {
+		profileService.deleteTwitt(id);
+		vm.twitts = profuleService.getTwitts(vm.user.id);
+	}
+
+	/////////////////
+	
+	function getUserData() {
+		var userData = profileService.getUserData();
+		vm.twitts = profileService.getTwitts(vm.user.id);
+		return userData;
+	}
+}
+```
+
+# Reglas específicas de estilo
+
+## Modules
+
+### Nombres únicos
+
+Pon nombres únicos a los Modules e incluye el nombre del padre en sub-módulos. Ie: 'twitter' como Module principal, 'twitter.profile' como Module de la aplicación.
+
+> Evita colisión de nombres, facilita comprender la jerarquía y el ubicar los archivos en la estructura.
+
+### Declaración
+
+No asignes a una variable la declaración de un Module, y separa la declaración de dependencias en un array.
+
+```javascript
+// ...app.module.js
+/* Evitar */
+var app = angular.module('twitter', [
+	'ngAnimate',
+	'twitter.core'
+	'twitter.shared',
+	'twitter.modules'
+]);
+app.config(config);
+
+function config() {
+	...
+}
+
+/* OK */
+var dependencies = [
+	'ngAnimate',
+	'twitter.core'
+	'twitter.shared',
+	'twitter.modules'
+];
+angular.module('twitter', dependencies);
+angular.module('twitter').config(config);
+
+function config() {
+	
+}
+```
+
+## Components
+
+### controllerAs
+
+
+
+## Controllers
+
+### vm = this
+
+Declara en el Controller una variable `var vm = this;` a la que asignar las diferentes funciones y variables públicas. Mientras se mantenga la regla de Controllers livianos será facil visualizar el Controller al debuggear sin necesidad de manejar un objeto con su mismo nombre.
+
+```javascript
+/* Evitar */
+function ProfileController() {
+	this.name = {};
+	this.editAvatar = function() { };
+}
+
+/* OK */
+function ProfileController() {
+	var vm = this;
+	vm.name = {};
+	vm.editAvatar = function() { };
+}
+```
+
+### Lógica del constructor/inicio en $onInit
+
+Introducir la lógica a realizar en el inicio del Controller dentro de la función $onInit.
+
+`Asegura que todos los bindings declarados en el Component están disponibles.`
+
+```javascript
+/* Evitar */
+function TimelineController(timelineService) {
+	var vm = this;
+	// from binding: vm.profile
+	vm.twitts = timelineService.getTwitts(vm.profile.id);
+	...
+}
+
+/* OK */
+function TimelineController(timelineService) {
+	var vm = this;
+	vm.twitts = [];
+	// from binding: vm.profile
+	
+	vm.$onInit = function() {
+		vm.twitts = timelineService.getTwitts(vm.profile.id);
+	};
+}
+```
+
+### Delega lógica a los Services
+
+Los Controller deberían servir como punto de unión entre la vista y los Service, incluyendo sólo lógica que sea muy específica, no reutilizable.
+
+`Poniendo la lógica en los Services, puede ser reutilizada por varios Controllers`
+`Facilita la interpretación del Controller en su conjunto`
+`Atomiza las operativas de manera que es mas facil realizar test unitarios y encontrar bugs`
+
+```javascript
+/* Evitar */
+function ProfileController($http, $q) {
+	var vm = this;
+	vm.profile = undefined;
+	...
+	function getProfile() {
+		var settings = { ... };
+		return $http.get(settings)
+			.then( ... )
+			. catch ( ... );
+	}
+}
+
+/* OK */
+function ProfileController(profileService) {
+	var vm = this;
+	vm.profile = undefined;
+
+	vm.$onInit = function() {
+		vm.profile = profileService.getProfile();
+	};
+}
+```
+
+## Services
+
+### Llamadas REST
+
+Procura utilizar `$resource` antes que `$http`, que simplifica y hace más claro de interpretar el código de llamadas REST.
