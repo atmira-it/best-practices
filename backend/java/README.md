@@ -4,8 +4,13 @@
 
 ## Tabla de contenidos
 
-[Valores nulo](#valores-nulo)
-[Conceptos basicos](#Conceptos-basicos)
+- [Conceptos basicos](#Conceptos-basicos)
+- [Lazy Initialitation](#lazy-initialitation)
+- [Valores nulo](#valores-nulo)
+- [Declaracion de variables](#Declaracion-de-variables)
+- [Nomenclatura](#nomenclatura)
+- [Comentarios de documentacion (JavaDoc)](#Comentarios-de-documentacion-(JavaDoc))
+
 
 # Conceptos basicos
 
