@@ -40,7 +40,8 @@ src/
 │   │   	├── dto/
 │   │   	│   └── ...
 │   │   	├── enrichment/
-│   │   	│   └── ...│   │   	└── utilidades/
+│   │   	│   └── ...
+│   │   	└── utilidades/
 │   │   	    └── ...
 │   ├── resources/
 │   │   └── META-INF/
