@@ -159,6 +159,7 @@ Son obligatorios los siguientes comentarios de documentación:
 * En cuanto a los tag's utilizados el orden de los mismos es el siguiente:
 
 	1. @param seguido de el nombre del parámetro e indentada la descripción del mismo. Usualmente esta descripción será una frase corta que comienza definiendo el tipo del parámetro.
+
 ```java
 @param alturaCaja         Entero que define la altura de la caja en píxeles
 @param longitudCaja     Flotante que define la longitud de la caja en píxeles
