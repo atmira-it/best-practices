@@ -87,19 +87,18 @@ Cosas a tener en cuenta cuando vayamos a nombrar algo en Java.
 
 * Los nombres de paquetes debería estar totalmente en minúsculas.
 * Los nombres de constantes de clases deberían escribirse todo en mayúsculas con las palabras separadas por subrayados ("_"). Todas serán declaradas como public static final
-```java
-	public static final String PROPERTY_URL_SERVICIO = "urlServicio";
-```
+
+> public static final String PROPERTY_URL_SERVICIO = "urlServicio";
 	
 * Los nombres que representan métodos deben ser verbos y escribirse con mayúsculas y minúsculas iniciando con minúscula.
 * Utilizar JavaDoc para los métodos, además de ir insertando comentarios cada vez que creas que la lógica de un método puede llevar a confusión para los programadores que vengan detrás.
 * Las declaraciones de clase deberían organizarse. Esto debería hacerse de la siguiente manera:
-	** Documentación de la Clase/Interface.-**
-	** Sentencia class o interface.**
-	** Variables de clase (estáticas) en el orden public, protected, package (sin modificador de acceso), privadas.**
-	** Variables de instancia en el orden public, protected, package (sin modificador de acceso), private.**
-	** Constructores.**
-	** Métodos (sin orden específico). **
+	1. Documentación de la Clase/Interface.
+	2. Sentencia class o interface.
+	3. Variables de clase (estáticas) en el orden public, protected, package (sin modificador de acceso), privadas.
+	4. Variables de instancia en el orden public, protected, package (sin modificador de acceso), private.
+	5. Constructores.
+	6. Métodos (sin orden específico). 
 
 ## Declaracion de variables 
 
