@@ -134,6 +134,7 @@ Cosas a tener en cuenta cuando vayamos a nombrar algo en Java.
 * Debemos intentar mantener los nombres de clases simples y descriptivos.
 * Debemos usar palabras completas y evitar acrónimos y abreviaturas (se permiten DAO, DTO, URL, HTML, etc.).
 * Si la clase cumpliese algún patrón determinado o tuviese una funcionalidad específica es recomendable definirlo en el nombre.
+* Aqui encontraremos una tabla con la nomenclatura habitual
 
 ![graficaNomenclatura](./assets/graficaNomenclatura.png "graficaNomenclatura.png").
 
