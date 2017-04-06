@@ -118,9 +118,9 @@ Cosas a tener en cuenta cuando vayamos a nombrar algo en Java.
 
 * Los nombres de paquetes debería estar totalmente en minúsculas.
 * Los nombres de constantes de clases deberían escribirse todo en mayúsculas con las palabras separadas por subrayados ("_"). Todas serán declaradas como public static final
-
-> public static final String PROPERTY_URL_SERVICIO = "urlServicio";
-	
+```java
+ public static final String PROPERTY_URL_SERVICIO = "urlServicio";
+``` 	
 * Los nombres que representan métodos deben ser verbos y escribirse con mayúsculas y minúsculas iniciando con minúscula.
 * Utilizar JavaDoc para los métodos, además de ir insertando comentarios cada vez que creas que la lógica de un método puede llevar a confusión para los programadores que vengan detrás.
 * Las declaraciones de clase deberían organizarse. Esto debería hacerse de la siguiente manera:
@@ -145,34 +145,34 @@ Son obligatorios los siguientes comentarios de documentación:
 
 * Comentario de la clase / interface:
 
-1. Prescripción genérica de la clase y su responsabilidad.
-2. Autor.
+	1. Prescripción genérica de la clase y su responsabilidad.
+	2. Autor.
 
 * Todas las variables tipo private o protected han de ser obligatoriamente comentadas.
 
 * Reglas generales a la hora de escribir comentarios de documentación.
 
-1. Siempre se escribe en tercera persona.
-2. Los caracteres especiales tales como tildes y eñes se han de codificar con su código HTML correspondiente.
-3. Las descripciones siempre deberían empezar por un verbo.
+	1. Siempre se escribe en tercera persona.
+	2. Los caracteres especiales tales como tildes y eñes se han de codificar con su código HTML correspondiente.
+	3. Las descripciones siempre deberían empezar por un verbo.
 
 * En cuanto a los tag's utilizados el orden de los mismos es el siguiente:
 
-1. @param seguido de el nombre del parámetro e indentada la descripción del mismo. Usualmente esta descripción será una frase corta que comienza definiendo el tipo del parámetro.
+	1. @param seguido de el nombre del parámetro e indentada la descripción del mismo. Usualmente esta descripción será una frase corta que comienza definiendo el tipo del parámetro.
 
 ```java
 @param alturaCaja         Entero que define la altura de la caja en píxeles
 @param longitudCaja     Flotante que define la longitud de la caja en píxeles
 ```
 
-2. @return este tag no aparece para aquellos métodos que retornan void. Por lo demás se comporta como el tag anterior
-3. @throws Descripción breve de la posible causa de la excepción.
-4. @see  Su uso queda restringido en cuanto a cantidad de los mismos como con el atributo @link.
+	2. @return este tag no aparece para aquellos métodos que retornan void. Por lo demás se comporta como el tag anterior
+	3. @throws Descripción breve de la posible causa de la excepción.
+	4. @see  Su uso queda restringido en cuanto a cantidad de los mismos como con el atributo @link.
 
-Los demás tags permitidos (@since, @serial, etc..) el uso es menos común y por lo tanto no se define una manera de utilizarlos.
-Usar el atributo <code> para las palabras reservadas de java, nombres de clases, métodos, interfaces, propiedades, argumentos y ejemplos de código.
-El uso del atributo @link tendrá que ser mínimo, para evitar llenar el documento de enlaces. Como norma general solo se incluirán links cuando la referencia sea necesaria y sólo en la primera aparición de la misma.
-Para distinguir entre dos métodos con el mismo nombre pero diferentes parámetros de entrada se utilizaran el nombre del método seguido por los argumentos del mismo entre paréntesis.
+* Los demás tags permitidos (@since, @serial, etc..) el uso es menos común y por lo tanto no se define una manera de utilizarlos.
+* Usar el atributo \<code>\ para las palabras reservadas de java, nombres de clases, métodos, interfaces, propiedades, argumentos y ejemplos de código.
+* El uso del atributo @link tendrá que ser mínimo, para evitar llenar el documento de enlaces. Como norma general solo se incluirán links cuando la referencia sea necesaria y sólo en la primera aparición de la misma.
+* Para distinguir entre dos métodos con el mismo nombre pero diferentes parámetros de entrada se utilizaran el nombre del método seguido por los argumentos del mismo entre paréntesis.
 
 
 ## Consejos
