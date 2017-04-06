@@ -76,12 +76,6 @@ public class Paises {
 }
 
 ```
-* Las variables booleanas negadas deben evitarse
-``` java
-boolean isError; // NOT: isNotError 
-boolean isFound; // NOT: isNotFound
-```
-El problema surge cuando el operador lógico no se usa y surge una doble negación. No es muy claro inicialmente el significado de !isNotError.
 
 ## Valores nulo
 
@@ -109,7 +103,7 @@ Cosas a tener en cuenta cuando vayamos a nombrar algo en Java.
 
 ## Declaracion de variables 
 
-Nunca declarar variables de instancia publica, por seguridad, mejor declararla como privada y crear getters y setters.
+* Nunca declarar variables de instancia publica, por seguridad, mejor declararla como privada y crear getters y setters.
 
 ```java
 /* Forma correcta y segura de declarar una variable */
@@ -131,7 +125,12 @@ public class vehiculo{
 }
 
 ```
-
+* Las variables booleanas negadas deben evitarse
+``` java
+boolean isError; // NOT: isNotError 
+boolean isFound; // NOT: isNotFound
+```
+El problema surge cuando el operador lógico no se usa y surge una doble negación. No es muy claro inicialmente el significado de !isNotError.
 
 # Reglas específicas de estilo
 
