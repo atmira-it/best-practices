@@ -10,7 +10,17 @@
 - [Declaracion de variables](#declaracion-de-variables)
 - [Nomenclatura](#nomenclatura)
 - [Comentarios de documentacion (JavaDoc)](#comentarios-de-documentacion-javadoc)
+- [Consejos](#consejos)
+	- [Evitar el uso de variables globales](#evitar-el-uso-de-variables-globales)
+	- [Evitar el uso de sentencias goto, break y continue](#evitar-el-uso-de-sentencias-goto,-break-y-continue)
+	- [Usar un único return por función, que se colocará como última sentencia de la función](#Usar-un-único-return-por-función,-que-se-colocará-como-última-sentencia-de-la-función)
+	- []()
 
+
+Evitar escribir funciones y procedimientos demasiado largas
+Evitar copiar y pegar trozos cuasiidénticos de código a lo largo de una aplicación software
+Colocar al lado de una llave que cierre un bloque de código un indicativo de que tipo de estructura cierra
+Las clases Exception deberían tener como sufijo Exception
 
 # Conceptos basicos
 
