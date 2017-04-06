@@ -4,7 +4,7 @@
 
 ## Tabla de contenidos
 
-* [Conceptos basicos](# Conceptos basicos )
+[Conceptos basicos] (# Conceptos basicos "Conceptos basicos")
 
 # Conceptos basicos
 
@@ -22,97 +22,59 @@ Pongamos por ejemplo como sería la estructura de un proyecto maven (simplificad
 
 ```
 src/
-├── app/
-│   ├── assets/
-│   │   └── ...
-│   ├── core/
-│   │   ├── app.constants.js
-│   │   ├── app.templates.js
-│   │   ├── core.module.js
-│   │   ├── database.service.js
-│   │   ├── logger.service.js
-│   │   └── utils.service.js
-│   ├── modules/
-│   │   ├── profile.module/
-│   │   │   ├── profile-stats.element/
-│   │   │   │	├── profile-stats.html
-│   │   │   │	└── profile-stats.css
-│   │   │   ├── profile-info.element/
-│   │   │   │   └── profile-info.element/
-│   │   │   ├── profile.config.js
-│   │   │   ├── profile.controller.js
-│   │   │   ├── profile.module.js
-│   │   │   ├── profile.routes.js
-│   │   │   ├── profile.service.js
-│   │   │   ├── profile.html
-│   │   │   └── profile.css
-│   │   ├── timeline.module/
-│   │   │   └── ...
-│   │   ├── moments.module/
-│   │   │   ├── moments-categories.element/
-│   │   │   │   └── ...
-│   │   │   ├── moments-moment.element/
-│   │   │   │   └── ...
-│   │   │   └── ...
-│   │   ├── notifications.module/
-│   │   │   ├── notifications-categories.element/
-│   │   │   │   └── ...
-│   │   │   └── ...
-│   │   └── modules.module.js
-│   ├── shared/
-│   │   ├── nav-bar.component/
-│   │   │   └── ...
-│   │   ├── twitt.component/
-│   │   │   └── ...
-│   │   ├── trending.component/
-│   │   │   └── ...
-│   │   ├── send-twitt.component/
-│   │   │   └── ...
-│   │   ├── follow-panel.component/
-│   │   │   └── ...
-│   │   ├── follow.directive/
-│   │   │   └── ...
-│   │   ├── avatar.directive/
-│   │   │   └── ...
-│   │   └── shared.module.js
-│   ├── app.boostrapping.js
-│   ├── app.module.js
-│   └── app.routes.js
-└── index.html
+├── main/
+│   ├── java/
+│   │   └── com.bankia.ioi.activarContrato.carteraGestionada.v1_0.flow/
+│   │   	├── action/
+│   │   	│   └── ...
+│   │   	├── assamble/
+│   │   	│   └── ...
+│   │   	├── constantes/
+│   │   	│   └── ...
+│   │   	├── dto/
+│   │   	│   └── ...
+│   │   	├── enrichment/
+│   │   	│   └── ...
+│   │   	└── utilidades/
+│   │   	    └── ...
+│   ├── resources/
+│   │   └── META-INF/
+│   │   	├── spring/
+│   │   	│   └── ...
+│   │   	└── views/
+│   │   	    └── ...
+│   └─ webapp/
+│       ├── WEB-INF/
+│       │   └── ...
+│       └── WEB-INF-LOCAL/
+│           └── ...
+│   
+└── test/
+    ├── java/
+    │   └── ...
+    └── resources/
+        └── ...
+ 
 ```
 
-## Responsabilidad única
+## Lazy Initialitation
 
-Define cada elemento de los Modules (Controllers/Components/Providers) en archivos separados.
-
-`Facilita la lectura, el mantenimiento y la búsqueda de incidencias`
+Inicializar los objetos solo cuando sea necesario, de esa manera evitaremos sobrecargar la memoria de java.
 
 ```java
-/* Evitar */
-// ...profile.module.js
-angular.
-	.module('twitter.profile', ['ngRoute'])
-	.controller('ProfileController', ProfileController)
-	.service('profileService', profileService);
-function ProfileController() { }
-function profileService() { }
+public class Paises {
+ 
+    private List paises;
+ 
+    public List getPaises() {
+        //se inicializa solo cuando es requerido
+        if(null == paises) {
+            paises = new ArrayList();
+        }
+        return paises;
+    }
+}
 
-
-/* OK */
-// ...profile.module.js
-angular.module('twitter.profile', ['ngRoute']);
-
-// ...profile.controller.js
-angular
-	.module('twitter.profile')
-	.controller('ProfileController', ProfileController);
-function ProfileController() { }
-
-// ...profile.service.js
-angular
-	.module('twitter.profile')
-	.factory('profileService', profileService);
-function profileService() { }
 ```
 
 ## IIFE *Inmmediately Invoked Function Expression*
