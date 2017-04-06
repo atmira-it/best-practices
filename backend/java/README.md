@@ -4,7 +4,8 @@
 
 ## Tabla de contenidos
 
-[Conceptos basicos] (# Conceptos basicos "Conceptos basicos")
+[Valores nulo](#valores-nulo)
+[Conceptos basicos](#Conceptos-basicos)
 
 # Conceptos basicos
 
@@ -34,8 +35,7 @@ src/
 │   │   	├── dto/
 │   │   	│   └── ...
 │   │   	├── enrichment/
-│   │   	│   └── ...
-│   │   	└── utilidades/
+│   │   	│   └── ...│   │   	└── utilidades/
 │   │   	    └── ...
 │   ├── resources/
 │   │   └── META-INF/
