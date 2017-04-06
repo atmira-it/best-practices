@@ -4,7 +4,7 @@
 
 ## Tabla de contenidos
 
-* [Conceptos basicos](# Conceptos basicos )
+[Conceptos basicos] (# Conceptos basicos "Conceptos basicos")
 
 # Conceptos basicos
 
@@ -22,310 +22,191 @@ Pongamos por ejemplo como sería la estructura de un proyecto maven (simplificad
 
 ```
 src/
-├── app/
-│   ├── assets/
-│   │   └── ...
-│   ├── core/
-│   │   ├── app.constants.js
-│   │   ├── app.templates.js
-│   │   ├── core.module.js
-│   │   ├── database.service.js
-│   │   ├── logger.service.js
-│   │   └── utils.service.js
-│   ├── modules/
-│   │   ├── profile.module/
-│   │   │   ├── profile-stats.element/
-│   │   │   │	├── profile-stats.html
-│   │   │   │	└── profile-stats.css
-│   │   │   ├── profile-info.element/
-│   │   │   │   └── profile-info.element/
-│   │   │   ├── profile.config.js
-│   │   │   ├── profile.controller.js
-│   │   │   ├── profile.module.js
-│   │   │   ├── profile.routes.js
-│   │   │   ├── profile.service.js
-│   │   │   ├── profile.html
-│   │   │   └── profile.css
-│   │   ├── timeline.module/
-│   │   │   └── ...
-│   │   ├── moments.module/
-│   │   │   ├── moments-categories.element/
-│   │   │   │   └── ...
-│   │   │   ├── moments-moment.element/
-│   │   │   │   └── ...
-│   │   │   └── ...
-│   │   ├── notifications.module/
-│   │   │   ├── notifications-categories.element/
-│   │   │   │   └── ...
-│   │   │   └── ...
-│   │   └── modules.module.js
-│   ├── shared/
-│   │   ├── nav-bar.component/
-│   │   │   └── ...
-│   │   ├── twitt.component/
-│   │   │   └── ...
-│   │   ├── trending.component/
-│   │   │   └── ...
-│   │   ├── send-twitt.component/
-│   │   │   └── ...
-│   │   ├── follow-panel.component/
-│   │   │   └── ...
-│   │   ├── follow.directive/
-│   │   │   └── ...
-│   │   ├── avatar.directive/
-│   │   │   └── ...
-│   │   └── shared.module.js
-│   ├── app.boostrapping.js
-│   ├── app.module.js
-│   └── app.routes.js
-└── index.html
+├── main/
+│   ├── java/
+│   │   └── com.bankia.ioi.activarContrato.carteraGestionada.v1_0.flow/
+│   │   	├── action/
+│   │   	│   └── ...
+│   │   	├── assamble/
+│   │   	│   └── ...
+│   │   	├── constantes/
+│   │   	│   └── ...
+│   │   	├── dto/
+│   │   	│   └── ...
+│   │   	├── enrichment/
+│   │   	│   └── ...
+│   │   	└── utilidades/
+│   │   	    └── ...
+│   ├── resources/
+│   │   └── META-INF/
+│   │   	├── spring/
+│   │   	│   └── ...
+│   │   	└── views/
+│   │   	    └── ...
+│   └─ webapp/
+│       ├── WEB-INF/
+│       │   └── ...
+│       └── WEB-INF-LOCAL/
+│           └── ...
+│   
+└── test/
+    ├── java/
+    │   └── ...
+    └── resources/
+        └── ...
+ 
 ```
 
-## Responsabilidad única
+## Lazy Initialitation
 
-Define cada elemento de los Modules (Controllers/Components/Providers) en archivos separados.
-
-`Facilita la lectura, el mantenimiento y la búsqueda de incidencias`
+* Inicializar los objetos solo cuando sea necesario, de esa manera evitaremos sobrecargar la memoria de java.
 
 ```java
-/* Evitar */
-// ...profile.module.js
-angular.
-	.module('twitter.profile', ['ngRoute'])
-	.controller('ProfileController', ProfileController)
-	.service('profileService', profileService);
-function ProfileController() { }
-function profileService() { }
-
-
-/* OK */
-// ...profile.module.js
-angular.module('twitter.profile', ['ngRoute']);
-
-// ...profile.controller.js
-angular
-	.module('twitter.profile')
-	.controller('ProfileController', ProfileController);
-function ProfileController() { }
-
-// ...profile.service.js
-angular
-	.module('twitter.profile')
-	.factory('profileService', profileService);
-function profileService() { }
-```
-
-## IIFE *Inmmediately Invoked Function Expression*
-
-Pon el código en una envoltura de función que la aisle del Scope global. 
-<sub>*Por brevedad, el resto de ejemplos mostrados no muestran este tipo de declaración*</sub>
-
-`Evita colisiones en la declaración de variables y que estas se mantengan en el ciclo global`
-
-```javascript
-// ...profile.controller.js
-/* Evitar */
-angular
-	.module('twitter.profile')
-	.controller('ProfileController', ProfileController);
-// Esta función se crea como variable global.
-function ProfileController() { }
-
-
-/* OK */
-(function() {
-	'use strict';
-
-	angular
-		.module('twitter.profile')
-		.controller('ProfileController', ProfileController);
-
-		function ProfileController() { }
-})();
-```
-
-## Declaración de variables/funciones públicas
-
-Declara todas las variables y funciones públicas al inicio de la función, y separa el resto de la implementación tras el código de estos elementos.
-
-```javascript
-/* Evitar */
-function ProfileController(profileService) {
-	var vm = this;
-	vm.twitts = [];
-	vm.user = undefined;
-
-	function getUserData() {
-		var userData = profileService.getUserData();
-		vm.twitts = profileService.getTwitts(vm.user.id);
-		return userData;
-	}
-	var deleteTwitt = function(id) {
-		profileService.deleteTwitt(id);
-		vm.twitts = profuleService.getTwitts(vm.user.id);
-	}
-	vm.deleteTwitt = deleteTwitt;
-
-	getUserData();
+public class Paises {
+ 
+    private List paises;
+ 
+    public List getPaises() {
+        //se inicializa solo cuando es requerido
+        if(null == paises) {
+            paises = new ArrayList();
+        }
+        return paises;
+    }
 }
 
-/* OK */
-function ProfileController(profileService) {
-	var vm = this;
-	vm.twitts = [];
-	vm.user = undefined;
-	vm.deleteTwitt = deleteTwitt;
+```
 
-	getUserData();
+## Valores nulo
 
-	var deleteTwitt = function(id) {
-		profileService.deleteTwitt(id);
-		vm.twitts = profuleService.getTwitts(vm.user.id);
-	}
+Para un mejor rendimiento de la aplicación y evitar un montón de tiempo cuando hagas pruebas para valores nulos, es mejor devolver las colecciones o arreglos vacíos en lugar de nulos, ojo, siempre hay que controlar las excepciones.
 
-	/////////////////
+## Declaracion de variables 
+
+* Nunca declarar variables de instancia publica, por seguridad, mejor declararla como privada y crear getters y setters.
+
+```java
+/* Forma correcta y segura de declarar una variable */
+public class vehiculo{
+
+	private String marca;
 	
-	function getUserData() {
-		var userData = profileService.getUserData();
-		vm.twitts = profileService.getTwitts(vm.user.id);
-		return userData;
-	}
-}
-```
-
-# Reglas específicas de estilo
-
-## Modules
-
-### Nombres únicos
-
-Pon nombres únicos a los Modules e incluye el nombre del padre en sub-módulos. Ie: 'twitter' como Module principal, 'twitter.profile' como Module de la aplicación.
-
-> Evita colisión de nombres, facilita comprender la jerarquía y el ubicar los archivos en la estructura.
-
-### Declaración
-
-No asignes a una variable la declaración de un Module, y separa la declaración de dependencias en un array.
-
-```javascript
-// ...app.module.js
-/* Evitar */
-var app = angular.module('twitter', [
-	'ngAnimate',
-	'twitter.core'
-	'twitter.shared',
-	'twitter.modules'
-]);
-app.config(config);
-
-function config() {
-	...
-}
-
-/* OK */
-var dependencies = [
-	'ngAnimate',
-	'twitter.core'
-	'twitter.shared',
-	'twitter.modules'
-];
-angular.module('twitter', dependencies);
-angular.module('twitter').config(config);
-
-function config() {
+	public String getMarca(){...}
+	
+	public void setMarca(String marca){...}
 	
 }
+
+/* Forma incorrecta y poco segura, ya que se tiene acceso desde cualquier lado de la aplicación */
+public class vehiculo{
+
+	public String marca;
+		
+}
+
 ```
-
-## Components
-
-### controllerAs
-
-
-
-## Controllers
-
-### vm = this
-
-Declara en el Controller una variable `var vm = this;` a la que asignar las diferentes funciones y variables públicas. Mientras se mantenga la regla de Controllers livianos será facil visualizar el Controller al debuggear sin necesidad de manejar un objeto con su mismo nombre.
-
-```javascript
-/* Evitar */
-function ProfileController() {
-	this.name = {};
-	this.editAvatar = function() { };
-}
-
-/* OK */
-function ProfileController() {
-	var vm = this;
-	vm.name = {};
-	vm.editAvatar = function() { };
-}
+* Las variables booleanas negadas deben evitarse
+``` java
+boolean isError; // NOT: isNotError 
+boolean isFound; // NOT: isNotFound
 ```
+El problema surge cuando el operador lógico no se usa y surge una doble negación. No es muy claro inicialmente el significado de !isNotError.
 
-### Lógica del constructor/inicio en $onInit
+## Nomenclatura
 
-Introducir la lógica a realizar en el inicio del Controller dentro de la función $onInit.
+Cosas a tener en cuenta cuando vayamos a nombrar algo en Java.
 
-`Asegura que todos los bindings declarados en el Component están disponibles.`
+* Los nombres de paquetes debería estar totalmente en minúsculas.
+* Los nombres de constantes de clases deberían escribirse todo en mayúsculas con las palabras separadas por subrayados ("_"). Todas serán declaradas como public static final
+```java
+ public static final String PROPERTY_URL_SERVICIO = "urlServicio";
+``` 	
+* Los nombres que representan métodos deben ser verbos y escribirse con mayúsculas y minúsculas iniciando con minúscula.
+* Utilizar JavaDoc para los métodos, además de ir insertando comentarios cada vez que creas que la lógica de un método puede llevar a confusión para los programadores que vengan detrás.
+* Las declaraciones de clase deberían organizarse. Esto debería hacerse de la siguiente manera:
+	1. Documentación de la Clase/Interface.
+	2. Sentencia class o interface.
+	3. Variables de clase (estáticas) en el orden public, protected, package (sin modificador de acceso), privadas.
+	4. Variables de instancia en el orden public, protected, package (sin modificador de acceso), private.
+	5. Constructores.
+	6. Métodos (sin orden específico). 
+* Los nombres de clases deben ser mezclas de mayúsculas y minúsculas, con la primera letra de cada palabra interna en mayúsculas (CamelCase).
+* Debemos intentar mantener los nombres de clases simples y descriptivos.
+* Debemos usar palabras completas y evitar acrónimos y abreviaturas (se permiten DAO, DTO, URL, HTML, etc.).
+* Si la clase cumpliese algún patrón determinado o tuviese una funcionalidad específica es recomendable definirlo en el nombre.
 
-```javascript
-/* Evitar */
-function TimelineController(timelineService) {
-	var vm = this;
-	// from binding: vm.profile
-	vm.twitts = timelineService.getTwitts(vm.profile.id);
-	...
-}
+![graficaNomenclatura](./assets/graficaNomenclatura.png "graficaNomenclatura.png").
 
-/* OK */
-function TimelineController(timelineService) {
-	var vm = this;
-	vm.twitts = [];
-	// from binding: vm.profile
+## Comentarios de documentacion (JavaDoc)
+
+> Como norma es obligatorio proporcionar un comentario de documentación por cada clase / interface, método, propiedad o constante creado.
+
+Son obligatorios los siguientes comentarios de documentación:
+
+* Comentario de la clase / interface:
+
+	1. Prescripción genérica de la clase y su responsabilidad.
+	2. Autor.
+
+* Todas las variables tipo private o protected han de ser obligatoriamente comentadas.
+
+* Reglas generales a la hora de escribir comentarios de documentación.
+
+	1. Siempre se escribe en tercera persona.
+	2. Los caracteres especiales tales como tildes y eñes se han de codificar con su código HTML correspondiente.
+	3. Las descripciones siempre deberían empezar por un verbo.
+
+* En cuanto a los tag's utilizados el orden de los mismos es el siguiente:
 	
-	vm.$onInit = function() {
-		vm.twitts = timelineService.getTwitts(vm.profile.id);
-	};
-}
+	1. @return este tag no aparece para aquellos métodos que retornan void. Por lo demás se comporta como el tag anterior
+	2. @throws Descripción breve de la posible causa de la excepción.
+	3. @see  Su uso queda restringido en cuanto a cantidad de los mismos como con el atributo @link.
+	4. @param seguido de el nombre del parámetro e indentada la descripción del mismo. Usualmente esta descripción será una frase corta que comienza definiendo el tipo del parámetro.
+```java
+@param alturaCaja         Entero que define la altura de la caja en píxeles
+@param longitudCaja     Flotante que define la longitud de la caja en píxeles
 ```
 
-### Delega lógica a los Services
+* Los demás tags permitidos (@since, @serial, etc..) el uso es menos común y por lo tanto no se define una manera de utilizarlos.
+* Usar el atributo \<code> para las palabras reservadas de java, nombres de clases, métodos, interfaces, propiedades, argumentos y ejemplos de código.
+* El uso del atributo @link tendrá que ser mínimo, para evitar llenar el documento de enlaces. Como norma general solo se incluirán links cuando la referencia sea necesaria y sólo en la primera aparición de la misma.
+* Para distinguir entre dos métodos con el mismo nombre pero diferentes parámetros de entrada se utilizaran el nombre del método seguido por los argumentos del mismo entre paréntesis.
 
-Los Controller deberían servir como punto de unión entre la vista y los Service, incluyendo sólo lógica que sea muy específica, no reutilizable.
 
-`Poniendo la lógica en los Services, puede ser reutilizada por varios Controllers`
-`Facilita la interpretación del Controller en su conjunto`
-`Atomiza las operativas de manera que es mas facil realizar test unitarios y encontrar bugs`
+## Consejos
 
-```javascript
-/* Evitar */
-function ProfileController($http, $q) {
-	var vm = this;
-	vm.profile = undefined;
-	...
-	function getProfile() {
-		var settings = { ... };
-		return $http.get(settings)
-			.then( ... )
-			. catch ( ... );
-	}
-}
+### Evitar el uso de variables globales.
 
-/* OK */
-function ProfileController(profileService) {
-	var vm = this;
-	vm.profile = undefined;
+Una variable global es una variable colocada fuera del ámbito de varias funciones y que es globalmente accesible por todas ellas. No se debe confundir con un atributo de una clase, que es un campo dentro de un registro que varias funciones manipulan. Un consejo útil para distinguir atributos de variables globales es pensar si la variable corresponde a una característica identificable del conjunto de individuos representado por una clase.
+El uso de variables globales pueda resultar tentador por lo cómodo de evitar tener que estar pasando la variable global como parámetro. Sin embargo, el uso de variables globales puede tener efectos laterales bastante peligrosos. El problema es que al ser la variable globalmente accesible, ésta puede, por malicia o simple infortunio, ser modificada fácilmente por terceras funciones, asignando a la variable un valor no deseado. Este valor no deseado puede desecandenar una serie de fallos en cadena. Al ser la variable accesible por un número potencialmente largo de funciones, una vez producido el fallo, depurar el programa hasta averiguar cual es la causa del fallo puede ser un proceso largo y tedioso. En muchas Escuelas de Ingeniería Informática el uso no justificado de variables globales es causa directa de suspenso en un examen o práctica de programación.
 
-	vm.$onInit = function() {
-		vm.profile = profileService.getProfile();
-	};
-}
-```
 
-## Services
+### Evitar el uso de sentencias goto, break y continue.
 
-### Llamadas REST
+Evitar el uso de sentencias que rompan el flujo secuencial de ejecución de un programa es el principio básico de la programación estructurada. Las sentencias tipo goto dificultan la legibilidad, depuración y verificación de programas, al permitir a la ejecución de un programa realizar saltos arbitrarios. Aquellas funciones que hacen uso de sentencias goto son mucho más difíciles de reutilizar y depurar.
+El uso de sentencias break y continue suele estar asociado a técnicas de construcción de bucles artesanales, donde primero se codifica un bucle y luego se comprueba su correción mediante prueba y error usando depuración. El no usar estas sentencias obliga normalmente a pensar primero que condición o invariante debe cumplirse durante la ejecución del bucle, y a continuación codificar el bucle. Esta segunda técnica resulta mucho más ingenieril, es la base para la posterior verificación formal del bucle y suele contribuir a mejorar la legibilidad de los programas.
+Comentar finalmente, que las sentencias break y continue son versiones degeneradas de la sentencia goto. La misión principal de estas instrucciones es forzar la salida de un bucle o su continuación. Si el programa fuese modificado y las sentencias break o continue quedasen anidadas dentro de nuevos bucles, éstas podrían dejar de cumplir su función. Al modificar el programa las sentencias break y continue podrían salir de, o continuar con, un bucle que no es el deseado, respectivamente. En ambos casos, la aplicación presentaría un comportamiento no deseado.
 
-Procura utilizar `$resource` antes que `$http`, que simplifica y hace más claro de interpretar el código de llamadas REST.
+### Usar un único return por función, que se colocará como última sentencia de la función.
+
+Este consejo es una consecuencia de uno de los principios de la programación estructurada. Dicho principio establece que los programas deberían tener un único punto de entrada y un sólo punto de salida. Además, enlazando con el consejo anterior, un return puede considerarse como un GOTO hacia el final de la función. El uso de un único return por función, colocado consecuentemente al final de la misma, facilita tanto la depuración como la adaptabilidad de los programas.
+
+### Evitar escribir funciones y procedimientos demasiado largas.
+
+Ello dificulta su legibilidad y comprensión y por tanto, su mantenimiento. En general, en funciones demasiado largas hay trozos claramente diferenciados de código, débilmente acoplados. Cada uno de estos bloques suele realizar una tarea distinta. Por ejemplo, es habitual en muchas funciones que al principio se preparen los datos para realizar un cómputo, o se inicialice alguna estrucura. A continuación se realizan una serie de cálculos y por último se presenten por la salida los resultados.
+En ese caso, por ejemplo, se recomienda dividir la función en tres subfunciones inicializa(..), calcular(..) e imprimir(..). No importa que las expectativas iniciales de reutilización de estas funciones sean prácticamente nulas. En general, si dos trozos de código pueden aparecer juntos en una sola función o separados en dos subfunciones, la opción recomendada siempre es separarlos.
+
+
+### Evitar copiar y pegar trozos cuasiidénticos de código a lo largo de una aplicación software.
+
+Si un trozo de código, por ejemplo, una serie de sentencias destinadas a impimir una matriz por pantalla, se copia y pega cada vez que se necesite dicha funcionalidad, el resultado será una aplicación con bloques idénticos de código dispersos a través de múltiples lugares de una aplicación software. El principal problema viene cuando hay que modificar este bloque de código. Por ejemplo, si simplemente queremos añadir un recuadro a la matriz, deberemos modificar de la misma forma múltiples puntos de nuestra aplicación, lo que es propenso a errores y puede provocar problemas de consistencia. En lugar de copiar y pegar trozos de codigo, la práctica recomendada es encapsular dicho trozo de código en una función e invocarla cuando se necesite.
+
+### Colocar al lado de una llave que cierre un bloque de código un indicativo de que tipo de estructura cierra.
+
+Es común cuando se anidan diversos bloques de código encontrarse con líneas de código que simplemente sean una secuencia de cierre de llaves tipo }}}}. En estos casos, es muy fácil perder la pista de que tipo de bloque de código o estructura cierra cada llave. Por tanto, se aconseja poner al lado de cada llave algún comentario que indique que tipo de estructura o bloque de código se cierra.
+La práctica habitual es usar: (1) el nombre del tipo de estructura de control que cierra; (2) el nombre de la función, en el caso del cierre defunciones; (3) el nombre de la clase, registro o módulo, en sus respectivos casos. Esto ayuda a asociar cada llave con la estructura que cierra.
+
+
+### Las clases Exception deberían tener como sufijo Exception
+
+Esto mejora la legibilidad dado que el nombre da al usuario la impresión inmediata del tipo de variable y por consiguiente los recursos disponibles del objeto.
