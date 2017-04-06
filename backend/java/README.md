@@ -135,7 +135,7 @@ Cosas a tener en cuenta cuando vayamos a nombrar algo en Java.
 * Debemos usar palabras completas y evitar acrónimos y abreviaturas (se permiten DAO, DTO, URL, HTML, etc.).
 * Si la clase cumpliese algún patrón determinado o tuviese una funcionalidad específica es recomendable definirlo en el nombre.
 
-//Poner aqui imagen nomenclatura
+![graficaNomenclatura](./assets/graficaNomenclatura.png "graficaNomenclatura.png").
 
 ## Comentarios de documentacion (JavaDoc)
 
@@ -157,16 +157,15 @@ Son obligatorios los siguientes comentarios de documentación:
 	3. Las descripciones siempre deberían empezar por un verbo.
 
 * En cuanto a los tag's utilizados el orden de los mismos es el siguiente:
-
-	1. @param seguido de el nombre del parámetro e indentada la descripción del mismo. Usualmente esta descripción será una frase corta que comienza definiendo el tipo del parámetro.
-
+	
+	1. @return este tag no aparece para aquellos métodos que retornan void. Por lo demás se comporta como el tag anterior
+	2. @throws Descripción breve de la posible causa de la excepción.
+	3. @see  Su uso queda restringido en cuanto a cantidad de los mismos como con el atributo @link.
+	4. @param seguido de el nombre del parámetro e indentada la descripción del mismo. Usualmente esta descripción será una frase corta que comienza definiendo el tipo del parámetro.
 ```java
 @param alturaCaja         Entero que define la altura de la caja en píxeles
 @param longitudCaja     Flotante que define la longitud de la caja en píxeles
 ```
-	2. @return este tag no aparece para aquellos métodos que retornan void. Por lo demás se comporta como el tag anterior
-	3. @throws Descripción breve de la posible causa de la excepción.
-	4. @see  Su uso queda restringido en cuanto a cantidad de los mismos como con el atributo @link.
 
 * Los demás tags permitidos (@since, @serial, etc..) el uso es menos común y por lo tanto no se define una manera de utilizarlos.
 * Usar el atributo \<code> para las palabras reservadas de java, nombres de clases, métodos, interfaces, propiedades, argumentos y ejemplos de código.
