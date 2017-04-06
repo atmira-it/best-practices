@@ -59,7 +59,7 @@ src/
 
 ## Lazy Initialitation
 
-Inicializar los objetos solo cuando sea necesario, de esa manera evitaremos sobrecargar la memoria de java.
+* Inicializar los objetos solo cuando sea necesario, de esa manera evitaremos sobrecargar la memoria de java.
 
 ```java
 public class Paises {
@@ -76,84 +76,62 @@ public class Paises {
 }
 
 ```
-
-## IIFE *Inmmediately Invoked Function Expression*
-
-Pon el código en una envoltura de función que la aisle del Scope global. 
-<sub>*Por brevedad, el resto de ejemplos mostrados no muestran este tipo de declaración*</sub>
-
-`Evita colisiones en la declaración de variables y que estas se mantengan en el ciclo global`
-
-```javascript
-// ...profile.controller.js
-/* Evitar */
-angular
-	.module('twitter.profile')
-	.controller('ProfileController', ProfileController);
-// Esta función se crea como variable global.
-function ProfileController() { }
-
-
-/* OK */
-(function() {
-	'use strict';
-
-	angular
-		.module('twitter.profile')
-		.controller('ProfileController', ProfileController);
-
-		function ProfileController() { }
-})();
+* Las variables booleanas negadas deben evitarse
+``` java
+boolean isError; // NOT: isNotError 
+boolean isFound; // NOT: isNotFound
 ```
+El problema surge cuando el operador lógico no se usa y surge una doble negación. No es muy claro inicialmente el significado de !isNotError.
 
-## Declaración de variables/funciones públicas
+## Valores nulo
 
-Declara todas las variables y funciones públicas al inicio de la función, y separa el resto de la implementación tras el código de estos elementos.
+Para un mejor rendimiento de la aplicación y evitar un montón de tiempo cuando hagas pruebas para valores nulos, es mejor devolver las colecciones o arreglos vacíos en lugar de nulos, ojo, siempre hay que controlar las excepciones.
 
-```javascript
-/* Evitar */
-function ProfileController(profileService) {
-	var vm = this;
-	vm.twitts = [];
-	vm.user = undefined;
+## Nomenclatura
 
-	function getUserData() {
-		var userData = profileService.getUserData();
-		vm.twitts = profileService.getTwitts(vm.user.id);
-		return userData;
-	}
-	var deleteTwitt = function(id) {
-		profileService.deleteTwitt(id);
-		vm.twitts = profuleService.getTwitts(vm.user.id);
-	}
-	vm.deleteTwitt = deleteTwitt;
+Cosas a tener en cuenta cuando vayamos a nombrar algo en Java.
 
-	getUserData();
-}
-
-/* OK */
-function ProfileController(profileService) {
-	var vm = this;
-	vm.twitts = [];
-	vm.user = undefined;
-	vm.deleteTwitt = deleteTwitt;
-
-	getUserData();
-
-	var deleteTwitt = function(id) {
-		profileService.deleteTwitt(id);
-		vm.twitts = profuleService.getTwitts(vm.user.id);
-	}
-
-	/////////////////
+* Los nombres de paquetes debería estar totalmente en minúsculas.
+* Los nombres de constantes de clases deberían escribirse todo en mayúsculas con las palabras separadas por subrayados ("_"). Todas serán declaradas como public static final
+```java
+	public static final String PROPERTY_URL_SERVICIO = "urlServicio";
+```
 	
-	function getUserData() {
-		var userData = profileService.getUserData();
-		vm.twitts = profileService.getTwitts(vm.user.id);
-		return userData;
-	}
+* Los nombres que representan métodos deben ser verbos y escribirse con mayúsculas y minúsculas iniciando con minúscula.
+* Utilizar JavaDoc para los métodos, además de ir insertando comentarios cada vez que creas que la lógica de un método puede llevar a confusión para los programadores que vengan detrás.
+* Las declaraciones de clase deberían organizarse. Esto debería hacerse de la siguiente manera:
+	** Documentación de la Clase/Interface.-**
+	** Sentencia class o interface.**
+	** Variables de clase (estáticas) en el orden public, protected, package (sin modificador de acceso), privadas.**
+	** Variables de instancia en el orden public, protected, package (sin modificador de acceso), private.**
+	** Constructores.**
+	** Métodos (sin orden específico). **
+
+## Declaracion de variables 
+
+Nunca declarar variables de instancia publica, por seguridad, mejor declararla como privada y crear getters y setters.
+
+```java
+/* Forma correcta y segura de declarar una variable */
+public class vehiculo{
+
+	private String marca;
+	
+	public String getMarca(){...}
+	
+	public void setMarca(String marca){...}
+	
 }
+
+/* Forma incorrecta y poco segura, ya que se tiene acceso desde cualquier lado de la aplicación */
+public class vehiculo{
+
+	public String marca;
+		
+}
+
 ```
+
 
 # Reglas específicas de estilo
 
