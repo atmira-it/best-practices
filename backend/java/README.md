@@ -159,18 +159,12 @@ Son obligatorios los siguientes comentarios de documentación:
 * En cuanto a los tag's utilizados el orden de los mismos es el siguiente:
 
 	1. @param seguido de el nombre del parámetro e indentada la descripción del mismo. Usualmente esta descripción será una frase corta que comienza definiendo el tipo del parámetro.
-
-```java
-@param alturaCaja         Entero que define la altura de la caja en píxeles
-@param longitudCaja     Flotante que define la longitud de la caja en píxeles
-```
-
 	2. @return este tag no aparece para aquellos métodos que retornan void. Por lo demás se comporta como el tag anterior
 	3. @throws Descripción breve de la posible causa de la excepción.
 	4. @see  Su uso queda restringido en cuanto a cantidad de los mismos como con el atributo @link.
 
 * Los demás tags permitidos (@since, @serial, etc..) el uso es menos común y por lo tanto no se define una manera de utilizarlos.
-* Usar el atributo \<code>\ para las palabras reservadas de java, nombres de clases, métodos, interfaces, propiedades, argumentos y ejemplos de código.
+* Usar el atributo \<code> para las palabras reservadas de java, nombres de clases, métodos, interfaces, propiedades, argumentos y ejemplos de código.
 * El uso del atributo @link tendrá que ser mínimo, para evitar llenar el documento de enlaces. Como norma general solo se incluirán links cuando la referencia sea necesaria y sólo en la primera aparición de la misma.
 * Para distinguir entre dos métodos con el mismo nombre pero diferentes parámetros de entrada se utilizaran el nombre del método seguido por los argumentos del mismo entre paréntesis.
 
