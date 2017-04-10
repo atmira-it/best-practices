@@ -4,7 +4,12 @@
 
 ## Tabla de contenidos
 
-[Conceptos basicos] (# Conceptos basicos "Conceptos basicos")
+[EL1051E:(pos 34)](#el1051epos-34-unexpected-ran-out-of-arguments "EL1051E:(pos 34)")
+[EL1008E:(pos 0)](#el1008epos-0 "EL1008E:(pos 0)")
+[es.cajamadrid.servicios.ARQ.Fecha no está soportado por ArqMapper](#el-tipo-escajamadridserviciosarqfecha-no-está-soportado-por-arqmapper "es.cajamadrid.servicios.ARQ.Fecha no está soportado por ArqMapper")
+[The channel code is not configure in system](#the-channel-code-is-not-configure-in-system "The channel code is not configure in system")
+[The session token is not present in the request](#the-session-token-is-not-present-in-the-request "The session token is not present in the request")
+[The channel code is not present in the request](#the-channel-code-is-not-present-in-the-request "The channel code is not present in the request")
 
 #  EL1051E:(pos 34): Unexpected ran out of arguments
 
@@ -103,6 +108,6 @@ Cuando veamos el siguiente error:
 }
 ```
 
-Debemos de asegurarnos que la url le estamos pasando el campo x-j_gid_cod_app=
+Debemos de asegurarnos que a la url le estamos pasando el campo x-j_gid_cod_app=
 
 
